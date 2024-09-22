@@ -25,7 +25,7 @@ build:
   - image: adservice
     context: src/adservice
   tagPolicy:
-    gitCommit: {}
+    sha256: {}
   local:
     useBuildkit: false
 manifests:
