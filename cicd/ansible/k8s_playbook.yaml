@@ -135,7 +135,7 @@
     - name: Fetch the join_command.txt
       fetch:
         src: /tmp/join_command.txt
-        dest: /home/ubuntu/ansible/join_command.txt
+        dest: /tmp/join_command.txt
         flat: true
 
     - name: Save kubeconfig
@@ -166,7 +166,7 @@
   tasks:
     - name: Copy join_command.txt
       copy:
-        src: /home/ubuntu/ansible/join_command.txt
+        src: /tmp/join_command.txt
         dest: /tmp/
 
     - name: Read join command from file
