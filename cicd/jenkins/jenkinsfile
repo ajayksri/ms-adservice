@@ -5,15 +5,15 @@ pipeline {
     TIMESTAMP = ""
   }
 
-  stage('Capture Timestamp') {
-    steps {
-      script {
-        env.TIMESTAMP = sh(script: 'date +%Y%m%d%H%M%S', returnStdout: true).trim()
+  stages {
+    stage('Capture Timestamp') {
+      steps {
+        script {
+          env.TIMESTAMP = sh(script: 'date +%Y%m%d%H%M%S', returnStdout: true).trim()
+        }
       }
     }
-  }
   
-  stages {
     stage('Provision ec2 instances and build ansible inventory') {
       steps {
         script {
@@ -25,7 +25,6 @@ pipeline {
         }
       }
     }
-  }
 
     stage('Create Kubernetes cluster') {
       steps {
@@ -51,7 +50,7 @@ pipeline {
             script {
                 sh 'sudo /usr/local/bin/skaffold run --default-repo ajayksri'
             }
-
+        }
       }
     }
 
