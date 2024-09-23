@@ -29,7 +29,7 @@ resource "aws_instance" "k8s_instances" {
 
 # Create a dynamic inventory file
 resource "local_file" "ansible_inventory" {
-  filename = "/home/ubuntu/ansible/inventory-${var.TIMESTAMP}"
+  filename = "/tmp/inventory-${var.TIMESTAMP}"
   content = <<-EOF
   [all:vars]
   ansible_connection=ssh

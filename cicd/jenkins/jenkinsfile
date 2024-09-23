@@ -34,7 +34,7 @@ pipeline {
         script {
           sh """
             cd cicd/ansible
-            ansible-playbook -i /home/ubuntu/ansible/inventory-${env.TIMESTAMP} k8s_playbook.yaml
+            ansible-playbook -i /tmp/inventory-${env.TIMESTAMP} k8s_playbook.yaml
             cd -
           """
         }
