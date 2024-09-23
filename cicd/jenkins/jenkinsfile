@@ -44,7 +44,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-adservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-adservice.git']]
             ])
             
             script {
@@ -60,11 +60,11 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-cartservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-cartservice.git']]
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images adservice:latest
+                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images cartservice:latest
             }
 
         }
@@ -77,7 +77,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-checkoutservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-checkoutservice.git']]
             ])
             
             script {
@@ -94,7 +94,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-currencyservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-currencyservice.git']]
             ])
             
             script {
@@ -111,7 +111,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-emailservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-emailservice.git']]
             ])
             
             script {
@@ -128,7 +128,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-frontend.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-frontend.git']]
             ])
             
             script {
@@ -145,7 +145,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-loadgenerator.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-loadgenerator.git']]
             ])
             
             script {
@@ -162,7 +162,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-paymentservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-paymentservice.git']]
             ])
             
             script {
@@ -179,7 +179,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-productcatalogservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-productcatalogservice.git']]
             ])
             
             script {
@@ -196,7 +196,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-recommendationservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-recommendationservice.git']]
             ])
             
             script {
@@ -213,7 +213,7 @@ pipeline {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-shipingservice.git]]
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-shipingservice.git']]
             ])
             
             script {
