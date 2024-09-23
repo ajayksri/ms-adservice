@@ -2,17 +2,13 @@ pipeline {
   agent any
 
   environment {
-    TIMESTAMP = ""
+    TIMESTAMP = "${sh 'date +%Y%m%d%H%M%S'}"
   }
 
   stages {
     stage('Capture Timestamp') {
       steps {
-        withEnv(['TIMESTAMP=$(date +%Y%m%d%H%M%S)']) {
-          script {
-            sh "echo TIMESTAMP=${TIMESTAMP}"
-          }
-       }
+            sh "echo TIMESTAMP=${env.TIMESTAMP}"
      }
    }
   
@@ -142,23 +138,6 @@ pipeline {
       }
     } 
 
-    stage('Checkout and Deploy LoadGenerator') {
-      steps {
-        dir('loadgenerator') {
-            checkout([
-                $class: 'GitSCM',
-                branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-loadgenerator.git']]
-            ])
-            
-            script {
-                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images loadgenerator:latest'
-            }
-
-        }
-      }
-    } 
-
     stage('Checkout and Deploy Payment Service') {
       steps {
         dir('paymentservice') {
@@ -226,6 +205,29 @@ pipeline {
         }
       }
     } 
+
+    stage('Checkout and Deploy LoadGenerator') {
+      steps {
+        dir('loadgenerator') {
+            checkout([
+                $class: 'GitSCM',
+                branches: [[name: '*/main']],
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-loadgenerator.git']]
+            ])
+            
+            script {
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images loadgenerator:latest'
+            }
+
+        }
+      }
+    } 
+
+    stage('Cleanup Workspace') {
+      steps {
+        cleanWs()
+      }
+    }
 
   }
 }
