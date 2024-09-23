@@ -48,7 +48,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold run --default-repo ajayksri
+                sh 'sudo /usr/local/bin/skaffold run --default-repo ajayksri'
             }
 
       }
@@ -64,7 +64,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images cartservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images cartservice:latest'
             }
 
         }
@@ -81,7 +81,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images checkoutservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images checkoutservice:latest'
             }
 
         }
@@ -98,7 +98,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images currencyservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images currencyservice:latest'
             }
 
         }
@@ -115,7 +115,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images emailservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images emailservice:latest'
             }
 
         }
@@ -132,7 +132,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images frontend:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images frontend:latest'
             }
 
         }
@@ -149,7 +149,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images loadgenerator:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images loadgenerator:latest'
             }
 
         }
@@ -166,7 +166,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images paymentservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images paymentservice:latest'
             }
 
         }
@@ -183,7 +183,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images productcatalogservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images productcatalogservice:latest'
             }
 
         }
@@ -200,7 +200,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images recommendationservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images recommendationservice:latest'
             }
 
         }
@@ -217,7 +217,7 @@ pipeline {
             ])
             
             script {
-                sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images shippingservice:latest
+                sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images shippingservice:latest'
             }
 
         }
