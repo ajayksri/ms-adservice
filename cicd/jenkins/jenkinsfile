@@ -38,9 +38,19 @@ pipeline {
       }
     }
 
-    stage('Build and Deploy Ad Service') {
+    stage('Checkout, Build and Deploy Ad Service') {
       steps {
-        sudo /usr/local/bin/skaffold run --default-repo ajayksri
+        dir('adservice') {
+            checkout([
+                $class: 'GitSCM',
+                branches: [[name: '*/main']],
+                userRemoteConfigs: [[url: ''https://github.com/ajayksri/ms-adservice.git]]
+            ])
+            
+            script {
+                sudo /usr/local/bin/skaffold run --default-repo ajayksri
+            }
+
       }
     }
 
