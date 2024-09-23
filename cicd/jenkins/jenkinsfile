@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Capture Timestamp') {
       steps {
-            sh "echo TIMESTAMP=${env.TIMESTAMP}"
+            sh "echo TIMESTAMP=${TIMESTAMP}"
      }
    }
   
@@ -18,7 +18,7 @@ pipeline {
           sh """
             cd cicd/tf
             terraform init
-            terraform apply -var TIMESTAMP=${env.TIMESTAMP} -auto-approve
+            terraform apply -var TIMESTAMP=${TIMESTAMP} -auto-approve
             cd -
           """
         }
@@ -30,7 +30,7 @@ pipeline {
         script {
           sh """
             cd cicd/ansible
-            ansible-playbook -i /tmp/inventory-${env.TIMESTAMP} k8s_playbook.yaml
+            ansible-playbook -i /tmp/inventory-${TIMESTAMP} k8s_playbook.yaml
             cd -
           """
         }
