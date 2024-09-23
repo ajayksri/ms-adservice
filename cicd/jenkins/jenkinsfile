@@ -21,6 +21,7 @@ pipeline {
         script {
           sh """
             cd cicd/tf
+            terraform init
             terraform apply -var TIMESTAMP=${env.TIMESTAMP} -auto-approve
             cd -
           """
