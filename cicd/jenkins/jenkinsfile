@@ -1,3 +1,5 @@
+def currentTimestamp = new Date().format('yyyy-MM-dd_HH:mm:ss')
+
 pipeline {
   agent any
 
@@ -6,22 +8,13 @@ pipeline {
   }
 
   stages {
-    stage('Capture Timestamp') {
-      steps {
-        script {
-          env.TIMESTAMP = sh(script: 'date +%Y%m%d%H%M%S', returnStdout: true).trim()
-        }
-        sh "echo TIMESTAMP=${env.TIMESTAMP}"
-      }
-    }
-  
     stage('Provision ec2 instances and build ansible inventory') {
       steps {
         script {
           sh """
             cd cicd/tf
             terraform init
-            terraform apply -var TIMESTAMP=${env.TIMESTAMP} -auto-approve
+            terraform apply -var TIMESTAMP=${currentTimestamp} -auto-approve
             cd -
           """
         }
@@ -33,7 +26,7 @@ pipeline {
         script {
           sh """
             cd cicd/ansible
-            ansible-playbook -i /tmp/inventory-${env.TIMESTAMP} k8s_playbook.yaml
+            ansible-playbook -i /tmp/inventory-${currentTimestamp} k8s_playbook.yaml
             cd -
           """
         }
