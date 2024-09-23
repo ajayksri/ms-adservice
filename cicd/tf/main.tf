@@ -34,7 +34,7 @@ resource "local_file" "ansible_inventory" {
   [all:vars]
   ansible_connection=ssh
   ansible_user=ubuntu
-  ansible_ssh_private_key_file=~/.ssh/capstone-g4.pem
+  ansible_ssh_private_key_file=~/capstone-g4.pem
 
   [ec2_instances]
   ${aws_instance.k8s_instances[0].private_ip}
@@ -61,7 +61,7 @@ resource "null_resource" "copy_ssh_key" {
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file("~/.ssh/capstone-g4.pem")
+    private_key = file("~/capstone-g4.pem")
     host        = aws_instance.k8s_instances[count.index].private_ip
   }
 
