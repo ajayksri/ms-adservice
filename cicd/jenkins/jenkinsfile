@@ -8,20 +8,22 @@ pipeline {
   stages {
     stage('Capture Timestamp') {
       steps {
-        script {
-          env.TIMESTAMP = sh(script: 'date +%Y%m%d%H%M%S', returnStdout: true).trim()
-        }
-      }
-    }
+        withEnv(['TIMESTAMP=$(date +%Y%m%d%H%M%S)']) {
+          script {
+            sh "echo TIMESTAMP=${TIMESTAMP}"
+          }
+       }
+     }
+   }
   
     stage('Provision ec2 instances and build ansible inventory') {
       steps {
         script {
-          sh '''
+          sh """
             cd cicd/tf
             terraform apply -var TIMESTAMP=${env.TIMESTAMP} -auto-approve
             cd -
-          '''
+          """
         }
       }
     }
@@ -29,11 +31,11 @@ pipeline {
     stage('Create Kubernetes cluster') {
       steps {
         script {
-          sh '''
+          sh """
             cd cicd/ansible
             ansible-playbook -i /home/ubuntu/ansible/inventory-${env.TIMESTAMP} k8s_playbook.yaml
             cd -
-          '''
+          """
         }
       }
     }
