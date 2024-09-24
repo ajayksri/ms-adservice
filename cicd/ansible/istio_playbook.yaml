@@ -33,3 +33,5 @@
       shell: "kubectl rollout status deployment/kiali -n istio-system"
       args:
         chdir: "/tmp/istio-{{ istio_version }}"
+    - name: Nodeport service for Kiali
+      shell: "kubectl apply -f /tmp/nodeport.yaml"

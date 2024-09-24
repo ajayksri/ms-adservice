@@ -15,6 +15,7 @@ pipeline {
             cd cicd/tf
             terraform init
             terraform apply -var TIMESTAMP=${currentTimestamp} -auto-approve
+            kubectl apply -f cicd/kiali/nodeport.yaml /tmp/
             cd -
             sleep 120
           """
@@ -41,7 +42,6 @@ pipeline {
             cd cicd/ansible
             ansible-playbook -i /tmp/inventory-${currentTimestamp} istio_playbook.yaml
             cd -
-            kubectl apply -f cicd/kiali/nodeport.yaml
           """
         }
       }
