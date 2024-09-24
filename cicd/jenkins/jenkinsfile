@@ -15,8 +15,8 @@ pipeline {
             cd cicd/tf
             terraform init
             terraform apply -var TIMESTAMP=${currentTimestamp} -auto-approve
-            cp cicd/kiali/nodeport.yaml /tmp/
             cd -
+            cp cicd/kiali/nodeport.yaml /tmp/
             sleep 120
           """
         }
