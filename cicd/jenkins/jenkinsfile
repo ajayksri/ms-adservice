@@ -16,6 +16,7 @@ pipeline {
             terraform init
             terraform apply -var TIMESTAMP=${currentTimestamp} -auto-approve
             cd -
+            sleep 120
           """
         }
       }

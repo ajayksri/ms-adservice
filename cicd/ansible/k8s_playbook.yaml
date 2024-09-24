@@ -143,7 +143,7 @@
         mkdir -p ~/.kube && cp /etc/kubernetes/admin.conf ~/.kube/config && sudo chown $(id -u):$(id -g) ~/.kube/config
         mkdir -p /home/ubuntu/.kube && cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube/
 
-    - name: Fetch the join_command.txt
+    - name: Fetch the config file
       fetch:
         src: /home/ubuntu/.kube/config
         dest: /tmp/config

@@ -49,25 +49,3 @@ resource "local_file" "ansible_inventory" {
   ${aws_instance.k8s_instances[2].private_ip}
   EOF
 }
-
-resource "tls_private_key" "ssh_key" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "null_resource" "copy_ssh_key" {
-  count = length(var.instance_names)
-
-  connection {
-    type        = "ssh"
-    user        = "ubuntu"
-    private_key = file("~/capstone-g4.pem")
-    host        = aws_instance.k8s_instances[count.index].private_ip
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo '${tls_private_key.ssh_key.public_key_openssh}' >> ~/.ssh/authorized_keys",
-    ]
-  }
-}
