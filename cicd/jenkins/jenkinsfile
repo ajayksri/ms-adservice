@@ -8,6 +8,42 @@ pipeline {
   }
 
   stages {
+    stage('Ad Service - checkout code') {
+      steps {
+        dir('adservice') {
+            checkout([
+                $class: 'GitSCM',
+                branches: [[name: '*/main']],
+                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-adservice.git']]
+            ])
+        }
+      }
+    }
+
+    stage('Ad Service - build') {
+      steps {
+        script {
+          sh 'sudo /usr/local/bin/skaffold build --push=false'
+        }
+      }
+    }
+
+    stage('Ad Service - static code analysis') {
+      steps {
+        script {
+          sh ''' cd src/adservice && \\
+            chmod +x ./gradlew && \\
+            ./gradlew sonar \\
+            -Dsonar.projectKey=Microservice-Ad-Service \\
+            -Dsonar.projectName=\'Microservice Ad Service\' \\
+            -Dsonar.host.url=http://ec2-52-66-208-230.ap-south-1.compute.amazonaws.com:9000 \\
+            -Dsonar.token=sqp_c7768b0bc00cdd85a7cbcc5f42a18bd04db9ee81 && \\
+            cd -
+          '''
+        }
+      }
+    }
+
     stage('Provision ec2 instances and build ansible inventory') {
       steps {
         script {
@@ -43,41 +79,6 @@ pipeline {
             ansible-playbook -i /tmp/inventory-${currentTimestamp} istio_playbook.yaml
             cd -
           """
-        }
-      }
-    }
-
-    stage('Ad Service - checkout code') {
-      steps {
-        dir('adservice') {
-            checkout([
-                $class: 'GitSCM',
-                branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-adservice.git']]
-            ])
-        }
-      }
-    }
-
-    stage('Ad Service - build') {
-      steps {
-        script {
-          sh 'sudo /usr/local/bin/skaffold build --push=false'
-        }
-      }
-    }
-
-    stage('Ad Service - static code analysis') {
-      steps {
-        script {
-          sh ''' cd src/adservice && \\
-            ./gradlew sonar \\
-            -Dsonar.projectKey=Microservice-Ad-Service \\
-            -Dsonar.projectName=\'Microservice Ad Service\' \\
-            -Dsonar.host.url=http://ec2-52-66-208-230.ap-south-1.compute.amazonaws.com:9000 \\
-            -Dsonar.token=sqp_c7768b0bc00cdd85a7cbcc5f42a18bd04db9ee81 && \\
-            cd -
-          '''
         }
       }
     }
