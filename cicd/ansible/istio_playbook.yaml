@@ -1,0 +1,35 @@
+- name: Install Istio and Kiali using Ansible
+  hosts: localhost
+  become: true
+
+  vars:
+    istio_version: 1.23.2
+
+  tasks:
+    - name: Download Istio installation package
+      get_url:
+        url: "https://github.com/istio/istio/releases/download/{{ istio_version }}/istio-{{ istio_version }}-linux-amd64.tar.gz"
+        dest: "/tmp/istio-{{ istio_version }}-linux-arm64.tar.gz"
+
+    - name: Extract Istio installation
+      shell: "tar -xzvf /tmp/istio-{{ istio_version }}-linux-arm64.tar.gz"
+      args:
+        chdir: "/tmp"
+
+    - name: Install Istio control plane (with demo profile and automatic acceptance)
+      shell: "bin/istioctl install --set profile=demo -y"
+      args:
+        chdir: "/tmp/istio-{{ istio_version }}"
+
+    - name: Enable Istio sidecar injection in the default namespace
+      shell: "kubectl label namespace default istio-injection=enabled"
+
+    - name: Deploy Istio addons (including Kiali)
+      shell: "kubectl apply -f samples/addons"
+      args:
+        chdir: "/tmp/istio-{{ istio_version }}"
+
+    - name: Wait for Kiali deployment to be ready
+      shell: "kubectl rollout status deployment/kiali -n istio-system"
+      args:
+        chdir: "/tmp/istio-{{ istio_version }}"

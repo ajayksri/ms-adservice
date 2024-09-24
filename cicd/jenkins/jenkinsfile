@@ -33,6 +33,19 @@ pipeline {
       }
     }
 
+    stage('Install istio and kiali') {
+      steps {
+        script {
+          sh """
+            cd cicd/ansible
+            ansible-playbook -i /tmp/inventory-${currentTimestamp} istio_playbook.yaml
+            cd -
+            kubectl apply -f cicd/kiali/nodeport.yaml
+          """
+        }
+      }
+    }
+
     stage('Checkout, Build and Deploy Ad Service') {
       steps {
         dir('adservice') {
