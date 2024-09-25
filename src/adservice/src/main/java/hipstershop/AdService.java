@@ -234,5 +234,6 @@ public final class AdService {
     final AdService service = AdService.getInstance();
     service.start();
     service.blockUntilShutdown();
+    logger.info("AdService stopping.");
   }
 }
