@@ -24,7 +24,10 @@ pipeline {
       steps {
         dir('adservice') {
           script {
-            sh 'sudo /usr/local/bin/skaffold build --push=false'
+            sh ''' cd src/adservice && \\
+              chmod +x ./gradlew && \\
+              ./gradlew build
+            '''
           }
         }
       }

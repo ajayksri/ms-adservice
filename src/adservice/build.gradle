@@ -1,6 +1,6 @@
 plugins {
     id 'com.google.protobuf' version '0.9.4'
-    id 'com.github.sherter.google-java-format' version '0.9'
+//    id 'com.github.sherter.google-java-format' version '0.9'
     id 'idea'
     id 'application'
     id 'org.sonarqube' version '5.0.0.4638'
@@ -67,9 +67,9 @@ protobuf {
     }
 }
 
-googleJavaFormat {
-    toolVersion '1.23.0'
-}
+//googleJavaFormat {
+//    toolVersion '1.23.0'
+//}
 
 // Inform IDEs like IntelliJ IDEA, Eclipse or NetBeans about the generated code.
 sourceSets {
