@@ -102,160 +102,161 @@ pipeline {
     }
 
     stage('Deploy all the microservices in parallel) {
+      parallel {
+        stage('Ad Service - push and deploy') {
+          steps {
+            dir('adservice') {
+              script {
+                sh 'sudo /usr/local/bin/skaffold run --default-repo ajayksri'
+              } 
+            }
+          }
+        }
 
-      stage('Ad Service - push and deploy') {
-        steps {
-          dir('adservice') {
-            script {
-              sh 'sudo /usr/local/bin/skaffold run --default-repo ajayksri'
+        stage('Checkout and Deploy Cart Service') {
+          steps {
+            dir('cartservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-cartservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images cartservice:${CARTSERVICE_RELEASE}'
+                }
             } 
           }
-        }
+        }  
+   
+        stage('Checkout and Deploy Checkout Service') {
+          steps {
+            dir('checkoutservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-checkoutservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images checkoutservice:${CHECKOUTSERVICE_RELEASE}'
+                }
+            }
+          }
+        }  
+
+        stage('Checkout and Deploy Currency Service') {
+          steps {
+            dir('currencyservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-currencyservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images currencyservice:${CURRENCYSERVICE_RELEASE}'
+                }
+            }
+          }
+        } 
+
+        stage('Checkout and Deploy Email Service') {
+          steps {
+            dir('emailservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-emailservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images emailservice:${EMAILSERVICE_RELEASE}'
+                }
+            }
+          }
+        } 
+
+        stage('Checkout and Deploy Frontend') {
+          steps {
+            dir('frontend') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-frontend.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images frontend:${FRONTEND_RELEASE}'
+                }
+            }
+          }
+        } 
+
+        stage('Checkout and Deploy Payment Service') {
+          steps {
+            dir('paymentservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-paymentservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images paymentservice:${PAYMENTSERVICE_RELEASE}'
+                }
+            }
+          }
+        } 
+
+        stage('Checkout and Deploy Product Catalog Service') {
+          steps {
+            dir('productcatalogservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-productcatalogservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images productcatalogservice:${PRODUCTCATALOGSERVICE_RELEASE}'
+                }
+            }
+          }
+        } 
+
+        stage('Checkout and Deploy Recommendation Service') {
+          steps {
+            dir('recommendationservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-recommendationservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images recommendationservice:${RECOMMENDATIONSERVICE_RELEASE}'
+                }
+            }
+          }
+        } 
+
+        stage('Checkout and Deploy Shiping Service') {
+          steps {
+            dir('shippingservice') {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-shipingservice.git']]
+                ])
+              
+                script {
+                    sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images shippingservice:${SHIPPINGSERVICE_RELEASE}'
+                }
+            }
+          }
+        } 
       }
-
-      stage('Checkout and Deploy Cart Service') {
-        steps {
-          dir('cartservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-cartservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images cartservice:${CARTSERVICE_RELEASE}'
-              }
-          } 
-        }
-      }  
- 
-      stage('Checkout and Deploy Checkout Service') {
-        steps {
-          dir('checkoutservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-checkoutservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images checkoutservice:${CHECKOUTSERVICE_RELEASE}'
-              }
-          }
-        }
-      }  
-
-      stage('Checkout and Deploy Currency Service') {
-        steps {
-          dir('currencyservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-currencyservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images currencyservice:${CURRENCYSERVICE_RELEASE}'
-              }
-          }
-        }
-      } 
-
-      stage('Checkout and Deploy Email Service') {
-        steps {
-          dir('emailservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-emailservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images emailservice:${EMAILSERVICE_RELEASE}'
-              }
-          }
-        }
-      } 
-
-      stage('Checkout and Deploy Frontend') {
-        steps {
-          dir('frontend') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-frontend.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images frontend:${FRONTEND_RELEASE}'
-              }
-          }
-        }
-      } 
-
-      stage('Checkout and Deploy Payment Service') {
-        steps {
-          dir('paymentservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-paymentservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images paymentservice:${PAYMENTSERVICE_RELEASE}'
-              }
-          }
-        }
-      } 
-
-      stage('Checkout and Deploy Product Catalog Service') {
-        steps {
-          dir('productcatalogservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-productcatalogservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images productcatalogservice:${PRODUCTCATALOGSERVICE_RELEASE}'
-              }
-          }
-        }
-      } 
-
-      stage('Checkout and Deploy Recommendation Service') {
-        steps {
-          dir('recommendationservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-recommendationservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images recommendationservice:${RECOMMENDATIONSERVICE_RELEASE}'
-              }
-          }
-        }
-      } 
-
-      stage('Checkout and Deploy Shiping Service') {
-        steps {
-          dir('shippingservice') {
-              checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  userRemoteConfigs: [[url: 'https://github.com/ajayksri/ms-shipingservice.git']]
-              ])
-            
-              script {
-                  sh 'sudo /usr/local/bin/skaffold deploy --default-repo ajayksri --images shippingservice:${SHIPPINGSERVICE_RELEASE}'
-              }
-          }
-        }
-      } 
     }
 
     stage('Checkout and Deploy LoadGenerator') {
