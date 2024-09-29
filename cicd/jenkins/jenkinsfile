@@ -101,7 +101,7 @@ pipeline {
       }
     }
 
-    stage('Deploy all the microservices in parallel) {
+    stage('Deploy all the microservices in parallel') {
       parallel {
         stage('Ad Service - push and deploy') {
           steps {
